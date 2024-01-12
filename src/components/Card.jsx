@@ -2,7 +2,6 @@ import "./Cards.css"
 import {useEffect, useState} from "react";
 import axios from "axios";
 
-
 function Card({url}) {
 
     const [pokemon, setPokemon] = useState();
@@ -10,32 +9,34 @@ function Card({url}) {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
+        const abortController = new AbortController();
 
-        setLoading(true);
         async function catchPokemon() {
             try {
-                const pokemon = await axios.get(`${url}`);
+                setLoading(true);
+                const pokemon = await axios.get(`${url}`, {signal: abortController.signal});
                 const result = pokemon.data;
                 setPokemon(result);
-
             } catch (e) {
                 console.error(e);
                 setLoadError("Oops, loading failed!");
-
             } finally {
-
+                setLoading(false);
             }
         }
-        catchPokemon();
-        setLoading(false);
-    }, []);
 
+        catchPokemon();
+
+        return () => {
+            abortController.abort();
+        }
+    }, []);
 
     return (
         <>
             {pokemon && <div className="card_wrapper">
-                {loadError && <h1>{loadError}</h1>}
                 {loading && <h1>Loading...</h1>}
+                {loadError && <h1>{loadError}</h1>}
                 <h2 className="name">{pokemon.name}</h2>
                 <img src={pokemon.sprites.front_default} alt="" className="sprite"/>
                 <div className="moves_wrapper">
@@ -50,13 +51,14 @@ function Card({url}) {
                     <h4>Abilities:</h4>
                     {pokemon.abilities.map((monsterAbility) => {
                         return (
-                            <li key={monsterAbility.ability.name} className="ability">{monsterAbility.ability.name}</li>
+                            <ul key={monsterAbility.ability.name} className="ability">
+                                <li>{monsterAbility.ability.name}</li>
+                            </ul>
                         )
                     })}
                 </div>
             </div>}
         </>
-
     )
 }
 

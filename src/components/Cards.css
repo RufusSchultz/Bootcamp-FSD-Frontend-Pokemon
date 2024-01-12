@@ -29,8 +29,10 @@
 
 .abilities_wrapper {
     margin-bottom: 1rem;
+    text-align: center;
 }
 
 .ability {
-
+    list-style: none;
+    padding: 0;
 }

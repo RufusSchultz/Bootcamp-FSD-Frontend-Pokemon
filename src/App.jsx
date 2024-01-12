@@ -10,41 +10,48 @@ function App() {
     const [endpoint, setEndpoint] = useState("https://pokeapi.co/api/v2/pokemon/?limit=20&offset=0");
 
     useEffect(() => {
+        const abortController = new AbortController();
 
-        setLoading(true);
-        async function catchPokemon() {
+        async function fetchPokemon() {
             try {
-                const pokemon = await axios.get(`${endpoint}`);
+                setLoading(true);
+                const pokemon = await axios.get(`${endpoint}`, {signal: abortController.signal});
                 const result = pokemon.data;
                 setMonsters(result);
-
             } catch (e) {
                 console.error(e);
                 setLoadError("Oops, loading failed!");
-
             } finally {
-
+                setLoading(false);
             }
         }
-        catchPokemon();
-        setLoading(false);
+
+        fetchPokemon();
+
+        return () => {
+            abortController.abort();
+        }
+
     }, [endpoint]);
 
     return (
         <div className="main">
+            {loading && <h1>Loading...</h1>}
             {loadError && <h1>{loadError}</h1>}
-            {monsters && <div className="main">
+            {monsters && !loading && <div className="main">
                 <h1>Gotta catch em all!</h1>
                 <div className="nav_buttons">
                     <button type="button"
                             disabled={monsters.previous === null}
-                            onClick={()=>setEndpoint(`${monsters.previous}`)}
-                    >Previous</button>`
+                            onClick={() => setEndpoint(`${monsters.previous}`)}
+                    >Previous
+                    </button>
+                    `
                     <button type="button"
-                            onClick={()=>setEndpoint(`${monsters.next}`)}
+                            disabled={monsters.next === null}
+                            onClick={() => setEndpoint(`${monsters.next}`)}
                     >Next</button>
                 </div>
-                {loading && <h1>Loading...</h1>}
                 <div>
                     <ul className="pokemon_list">
                         {monsters.results.map((monster) => {
