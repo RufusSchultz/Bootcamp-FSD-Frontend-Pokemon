@@ -10,6 +10,8 @@ function App() {
     const [endpoint, setEndpoint] = useState("https://pokeapi.co/api/v2/pokemon/?limit=20&offset=0");
 
     useEffect(() => {
+
+        setLoading(true);
         async function catchPokemon() {
             try {
                 const pokemon = await axios.get(`${endpoint}`);
@@ -18,13 +20,14 @@ function App() {
 
             } catch (e) {
                 console.error(e);
-                setLoadError("Oeps!");
+                setLoadError("Oops, loading failed!");
 
             } finally {
 
             }
         }
         catchPokemon();
+        setLoading(false);
     }, [endpoint]);
 
     return (
@@ -41,6 +44,7 @@ function App() {
                             onClick={()=>setEndpoint(`${monsters.next}`)}
                     >Next</button>
                 </div>
+                {loading && <h1>Loading...</h1>}
                 <div>
                     <ul className="pokemon_list">
                         {monsters.results.map((monster) => {

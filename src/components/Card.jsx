@@ -7,8 +7,11 @@ function Card({url}) {
 
     const [pokemon, setPokemon] = useState();
     const [loadError, setLoadError] = useState("");
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
+
+        setLoading(true);
         async function catchPokemon() {
             try {
                 const pokemon = await axios.get(`${url}`);
@@ -17,19 +20,22 @@ function Card({url}) {
 
             } catch (e) {
                 console.error(e);
-                setLoadError("Oeps!");
+                setLoadError("Oops, loading failed!");
 
             } finally {
 
             }
         }
         catchPokemon();
+        setLoading(false);
     }, []);
 
 
     return (
         <>
             {pokemon && <div className="card_wrapper">
+                {loadError && <h1>{loadError}</h1>}
+                {loading && <h1>Loading...</h1>}
                 <h2 className="name">{pokemon.name}</h2>
                 <img src={pokemon.sprites.front_default} alt="" className="sprite"/>
                 <div className="moves_wrapper">
