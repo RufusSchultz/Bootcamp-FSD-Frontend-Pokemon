@@ -24,9 +24,8 @@ function App() {
 
             }
         }
-
         catchPokemon();
-    }, []);
+    }, [endpoint]);
 
     return (
         <div className="main">
@@ -34,8 +33,13 @@ function App() {
             {monsters && <div className="main">
                 <h1>Gotta catch em all!</h1>
                 <div className="nav_buttons">
-                    <button type="button" disabled={endpoint === "https://pokeapi.co/api/v2/pokemon/?limit=20&offset=0"}>Previous</button>
-                    <button type="button">Next</button>
+                    <button type="button"
+                            disabled={monsters.previous === null}
+                            onClick={()=>setEndpoint(`${monsters.previous}`)}
+                    >Previous</button>`
+                    <button type="button"
+                            onClick={()=>setEndpoint(`${monsters.next}`)}
+                    >Next</button>
                 </div>
                 <div>
                     <ul className="pokemon_list">
