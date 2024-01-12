@@ -1,0 +1,36 @@
+.card_wrapper {
+    list-style: none;
+    border: solid black 3px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 250px;
+    background-color: khaki;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.sprite {
+    background-color: #747bff;
+    border-radius: 20px;
+}
+
+.moves_wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.weight_wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.abilities_wrapper {
+    margin-bottom: 1rem;
+}
+
+.ability {
+
+}
