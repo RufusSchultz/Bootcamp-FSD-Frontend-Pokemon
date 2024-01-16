@@ -15,7 +15,7 @@ function App() {
         async function fetchPokemon() {
             try {
                 setLoading(true);
-                const pokemon = await axios.get(`${endpoint}`, {signal: abortController.signal});
+                const pokemon = await axios.get(endpoint, {signal: abortController.signal});
                 const result = pokemon.data;
                 setMonsters(result);
             } catch (e) {
