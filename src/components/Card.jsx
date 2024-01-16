@@ -14,7 +14,7 @@ function Card({url}) {
         async function catchPokemon() {
             try {
                 setLoading(true);
-                const pokemon = await axios.get(`${url}`, {signal: abortController.signal});
+                const pokemon = await axios.get(url, {signal: abortController.signal});
                 const result = pokemon.data;
                 setPokemon(result);
             } catch (e) {

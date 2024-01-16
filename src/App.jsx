@@ -46,7 +46,6 @@ function App() {
                             onClick={() => setEndpoint(`${monsters.previous}`)}
                     >Previous
                     </button>
-                    `
                     <button type="button"
                             disabled={monsters.next === null}
                             onClick={() => setEndpoint(`${monsters.next}`)}
