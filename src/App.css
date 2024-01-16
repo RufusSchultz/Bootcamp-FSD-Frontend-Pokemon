@@ -1,1 +1,22 @@
-/*Schrijf hier jouw eigen CSS!*/
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+}
+
+.pokemon_list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    list-style: none;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.nav_buttons {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem;
+}
